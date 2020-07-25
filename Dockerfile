@@ -5,8 +5,8 @@ LABEL "maintainer"="Liksi <ops@liksi.fr>"
 ARG PROM_SCW_SD_RELEASE=v2.0
 ARG PROM_SCW_SD_VERSION=2.0.0
 
-RUN mkdir -p /work \
-    && chown -R nobody:nogroup /work
+RUN mkdir -p /work /config \
+    && chown -R 65534:65534 /work /config
 
 RUN apt-get update \
     && apt-get install -y curl \
@@ -23,7 +23,7 @@ VOLUME /work
 
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh \
-    && chown -R nobody:nogroup /entrypoint.sh
+    && chown -R 65534:65534 /entrypoint.sh
 
-USER nobody
+USER 65534
 ENTRYPOINT ["/entrypoint.sh"]
