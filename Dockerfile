@@ -5,7 +5,8 @@ LABEL "maintainer"="Liksi <ops@liksi.fr>"
 ARG PROM_SCW_SD_RELEASE=v2.0
 ARG PROM_SCW_SD_VERSION=2.0.0
 
-RUN mkdir /work
+RUN mkdir -p /work && \
+    chown -R nobody:nogroup /work
 
 RUN apt-get update \
     && apt-get install -y curl \
@@ -19,6 +20,7 @@ RUN curl -LO https://github.com/scaleway/prometheus-scw-sd/releases/download/${P
 
 WORKDIR /work
 VOLUME /work
+USER nobody
 
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
